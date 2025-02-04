@@ -9,7 +9,7 @@ pipeline {
         
         // Docker image details:
         // Use your Docker registry domain and repository name.
-        IMAGE_NAME = "dockerhub.idm.net.lb:8080/carlossawan/basic-nginx" 
+        IMAGE_NAME = "http://dockerhub.idm.net.lb:8080/carlossawan/basic-nginx" 
         TAG = "${env.BUILD_NUMBER}"            // Using Jenkins build number as the image tag
 
         // Argo CD details
