@@ -14,7 +14,7 @@ pipeline {
 
         // Argo CD details
         ARGOCD_SERVER = "192.168.154.100"     // Replace with your Argo CD server address
-        ARGOCD_PASSWORD = credentials('argocd-password')
+        ARGOCD_PASSWORD = credentials('argocd-password-carlos')
         
         // Git configuration for manifest updates
         GIT_USER_EMAIL = "jenkins@example.com"
