@@ -67,13 +67,14 @@ pipeline {
                         // Use triple double-quotes for a multi-line shell block,
                         // and ensure that the sed command is properly quoted.
                         sh """
-                            git config user.email "${GIT_USER_EMAIL}"
-                            git config user.name "${GIT_USER_NAME}"
-                            sed -i "s|IMAGE_TAG_PLACEHOLDER|${TAG}|g" nginx-dep.yaml
-                            git add nginx-dep.yaml
-                            git commit -m "Update image tag to ${TAG}"
-                            git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git" HEAD:main
-                        """
+                                git config user.email "${GIT_USER_EMAIL}"
+                                git config user.name "${GIT_USER_NAME}"
+                                sed -i "s|IMAGE_TAG_PLACEHOLDER|${TAG}|g" nginx-dep.yaml
+                                git add nginx-dep.yaml
+                                git commit -m "Update image tag to ${TAG}" || echo "No changes to commit"
+                                git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git" HEAD:main
+                            """
+
                     }
                 }
             }
