@@ -10,7 +10,8 @@ pipeline {
         // Docker image details:
         // Use your Docker registry domain and repository name.
         IMAGE_NAME = "dockerhub.idm.net.lb/carlossawan/basic-nginx" 
-        TAG = "${env.BUILD_NUMBER}"            // Using Jenkins build number as the image tag
+        // Use Jenkins build number as the image tag.
+        TAG = "${env.BUILD_NUMBER}"
 
         // Argo CD details
         ARGOCD_SERVER = "192.168.154.100"     // Replace with your Argo CD server address
@@ -52,7 +53,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh "docker push dockerhub.idm.net.lb/carlossawan/basic-nginx:${TAG}"
+                    sh "docker push ${IMAGE_NAME}:${TAG}"
                 }
             }
         }
@@ -63,22 +64,20 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'github token carlos', 
                                                          usernameVariable: 'GIT_USERNAME', 
                                                          passwordVariable: 'GIT_PASSWORD')]) {
-                        sh '''
-                            git config user.email "jenkins@example.com"
-                            git config user.name "Jenkins"
-                            sed -i s|IMAGE_TAG_PLACEHOLDER|${IMAGE_TAG}|g" nginx-dep.yaml
+                        // Use triple double-quotes for a multi-line shell block,
+                        // and ensure that the sed command is properly quoted.
+                        sh """
+                            git config user.email "${GIT_USER_EMAIL}"
+                            git config user.name "${GIT_USER_NAME}"
+                            sed -i "s|IMAGE_TAG_PLACEHOLDER|${TAG}|g" nginx-dep.yaml
                             git add nginx-dep.yaml
-                            git commit -m "Update image tag to ${IMAGE_TAG}"
-                            # Use the credentials in the remote URL
+                            git commit -m "Update image tag to ${TAG}"
                             git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git" HEAD:main
-                        '''
+                        """
                     }
                 }
             }
         }
-
-
-        
     }
 
     post {
