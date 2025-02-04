@@ -52,8 +52,9 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // For a registry that doesn't require credentials, you can simply push.
-                    dockerImage.push()
+                   docker.withRegistry('http://dockerhub.idm.net.lb:8080', null) {
+                   dockerImage.push()
+                    }             
                 }
             }
         }
