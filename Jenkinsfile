@@ -59,22 +59,24 @@ pipeline {
 
         stage('Update Deployment Manifest') {
             steps {
-                script {
-                    dir("manifests") {
-                        // Configure Git user details.
-                        sh """
-                          git config user.email "${GIT_USER_EMAIL}"
-                          git config user.name "${GIT_USER_NAME}"
-                          # Replace the placeholder (IMAGE_TAG_PLACEHOLDER) in the manifest with the new image tag.
-                          sed -i "s|IMAGE_TAG_PLACEHOLDER|${TAG}|g" nginx-dep.yaml
-                          git add nginx-dep.yaml
-                          git commit -m "Update image tag to ${TAG}" || echo "No changes to commit"
-                          git push origin HEAD:main
-                        """
+                dir('manifests') {
+                    withCredentials([usernamePassword(credentialsId: 'github token carlos', 
+                                                         usernameVariable: 'GIT_USERNAME', 
+                                                         passwordVariable: 'GIT_PASSWORD')]) {
+                        sh '''
+                            git config user.email "jenkins@example.com"
+                            git config user.name "Jenkins"
+                            sed -i s|IMAGE_TAG_PLACEHOLDER|${IMAGE_TAG}|g nginx-dep.yaml
+                            git add nginx-dep.yaml
+                            git commit -m "Update image tag to ${IMAGE_TAG}"
+                            # Use the credentials in the remote URL
+                            git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git HEAD:main
+                        '''
                     }
                 }
             }
         }
+
 
         
     }
