@@ -52,7 +52,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                   docker push http://dockerhub.idm.net.lb:8080/carlossawan/basic-nginx:${TAG} 
+                    sh "docker push dockerhub.idm.net.lb:8080/carlossawan/basic-nginx:${TAG}"
                 }
             }
         }
