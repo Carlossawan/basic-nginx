@@ -52,9 +52,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                   docker.withRegistry('http://dockerhub.idm.net.lb:8080', null) {
-                   dockerImage.push()
-                    }             
+                   docker push http://dockerhub.idm.net.lb:8080/carlossawan/basic-nginx:${TAG} 
                 }
             }
         }
