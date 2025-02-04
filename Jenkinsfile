@@ -66,11 +66,11 @@ pipeline {
                                                          passwordVariable: 'GIT_PASSWORD')]) {
                         // Use triple double-quotes for a multi-line shell block,
                         // and ensure that the sed command is properly quoted.
-                       sh """
+                      sh """
                                 echo "Current TAG is: ${TAG}"
                                 echo "Before sed:"
                                 cat nginx-dep.yaml
-                                sed -i "s|IMAGE_TAG_PLACEHOLDER|${TAG}|g" nginx-dep.yaml
+                                sed -i "s|\(dockerhub\\.idm\\.net\\.lb/carlossawan/basic-nginx:\)[^[:space:]]*|\1${TAG}|g" nginx-dep.yaml
                                 echo "After sed:"
                                 cat nginx-dep.yaml
                                 git config user.email "${GIT_USER_EMAIL}"
@@ -79,6 +79,7 @@ pipeline {
                                 git commit --allow-empty -m "Update image tag to ${TAG}"
                                 git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git" HEAD:main
                             """
+
 
 
 
