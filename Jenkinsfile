@@ -70,7 +70,7 @@ pipeline {
                             git add nginx-dep.yaml
                             git commit -m "Update image tag to ${IMAGE_TAG}"
                             # Use the credentials in the remote URL
-                            git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git HEAD:main
+                            git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git" HEAD:main
                         '''
                     }
                 }
