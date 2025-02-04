@@ -66,7 +66,7 @@ pipeline {
                         sh '''
                             git config user.email "jenkins@example.com"
                             git config user.name "Jenkins"
-                            sed -i s|IMAGE_TAG_PLACEHOLDER|${IMAGE_TAG}|g nginx-dep.yaml
+                            sed -i s|IMAGE_TAG_PLACEHOLDER|${IMAGE_TAG}|g" nginx-dep.yaml
                             git add nginx-dep.yaml
                             git commit -m "Update image tag to ${IMAGE_TAG}"
                             # Use the credentials in the remote URL
