@@ -71,9 +71,10 @@ pipeline {
                                 git config user.name "${GIT_USER_NAME}"
                                 sed -i "s|IMAGE_TAG_PLACEHOLDER|${TAG}|g" nginx-dep.yaml
                                 git add nginx-dep.yaml
-                                git commit -m "Update image tag to ${TAG}" || echo "No changes to commit"
+                                git commit --allow-empty -m "Update image tag to ${TAG}"
                                 git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Carlossawan/deployment-manifests.git" HEAD:main
-                            """
+                           """
+
 
                     }
                 }
