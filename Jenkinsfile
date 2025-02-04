@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image using the Dockerfile in the "app" directory.
-                    dockerImage = docker.build("${IMAGE_NAME}:${TAG}", "./app")
+                    dockerImage = docker.build("${IMAGE_NAME}:${TAG}", "./")
                 }
             }
         }
